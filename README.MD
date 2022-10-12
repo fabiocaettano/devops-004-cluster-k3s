@@ -39,6 +39,8 @@ Na máquina k8s-server-1 anotar o Token:
 cat /var/lib/rancher/k3s/server/node-token
 ```
 
+Sair da máquina:
+
 ``` bash
 exit
 ``` 
@@ -76,12 +78,22 @@ A segunta forma é No bash da máquina local:
 scp root@iPdoK8sServer1:/etc/rancher/k3s/k3s.yaml /home/nomeDoUsuarioMaquinaLocal/.kube/config
 ```
 
+Sair da máquina:
+
+``` bash
+exit
+```
+
+## Máquina Local
+
 No arquivo config salvo na máquina local, alterar o localhost pelo IP Público da máquina k8s-server-1 gerado pelo Cloud Provider:
 
 ``` yaml
+...
 clusters
 - cluster:
        server: https://ipDoK8sServer1:6443
+...
 ```
 
 Checar os nodes na máquina local:
