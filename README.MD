@@ -88,6 +88,9 @@ exit
 
 No arquivo config salvo na máquina local, alterar o localhost pelo IP Público da máquina k8s-server-1 gerado pelo Cloud Provider:
 
+
+Acessar o arquivo config salvo na pasta ".kube":
+
 ``` yaml
 ...
 clusters
