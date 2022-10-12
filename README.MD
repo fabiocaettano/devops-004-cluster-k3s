@@ -113,3 +113,7 @@ Checar os nodes na máquina local:
 ``` bash
 kubectl get nodes
 ```
+
+## Deletar Droplet
+
+Após os testes deletar os Dropletes, pois o serviço é pago.
