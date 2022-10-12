@@ -18,10 +18,9 @@ Minimo para esta máquina 2GB e 1 CPU.
 Minimo para esta máquina 1GB e 1 CPU.
 
 Nomear os Droplets:
-
-=> k8s-server-1
-=> k8s-agent-2
-=> k8s-agent-3
+1. k8s-server-1
+2. k8s-agent-2
+3. k8s-agent-3
 
 Cada Droplet terá um numero de IP.
 
