@@ -4,28 +4,28 @@ K3S indicado para arquitetura Edge , IOT e Pipeline CI/CD.
 
 
 ## Máquinas Virtuais
-Criar 01 máquina virtual que será o Server e irá fazer o papel do Control-Pane, esta máquina deve ter no minimo 2GB e 1 CPU.
 
-As outras 02 máquinas virturias serãos os Agents, irão fazer o papel de WorkNodes, o minimo exigido é de 1GB e 1 CPU.
+O Cloud Provider que utlizado neste laboratório é o da Digital Ocean.
 
-O Cloud Provider que utlizado para este laboratório foi a Digital Ocean.
+1. 01 Máquina Virtual irá fazer o papel do Control-Pane.
+Minimo para esta máquina 2GB e 1 CPU.
 
-Foram criados 03 Droplets.
+2. As outras máquinas virturias fazem o papel de WorkNodes.
+Minimo para esta máquina 1GB e 1 CPU.
 
-Identificação do Server:
-k8s-server-1
-
-Identificação do Agents:
-k8s-agent-2
-k8s-agent-3
+Nomear os Droplets:
+=> k8s-server-1
+=> k8s-agent-2
+=> k8s-agent-3
 
 
-## Instalar o K3S
+
+## Instalar o K3S no Server
 
 Instalar K3s na máquina k8s-server-1:
 ``` bash
 #acessar a máquina virtual
-ssh root@ipDoServer
+ssh root@ipDoK8s-server-1
 
 # Instalar o k3s
 curl -sfL https://get.k3s.io | sh -
@@ -39,42 +39,41 @@ Na máquina k8s-server-1 anotar o Token:
 cat /var/lib/rancher/k3s/server/node-token
 ```
 
+``` bash
+exit
+``` 
+
 ## Join do Agent com Server:
 
 
-Instalar o K3S e realizar o JOIN ma máquina k8s-agent-2:
+Instalar o K3S e realizar o JOIN:
 
 ``` bash
-#acessar a máquina virtual k8s-agent-2
-ssh root@ipDoAgentK8sAgent2
+# acessar a máquina virtual k8s-agent-2
+ssh root@ipDoAgentK8sAgent
 
-#executar o comando
-curl -sfL https://get.k3s.io | K3S_URL=https://ipDoServer:6443 K3S_TOKEN=TOKEN sh -
+# executar o comando
+# copiar o token do K8s-Server-1 e coloar no comando abaixo
+curl -sfL https://get.k3s.io | K3S_URL=https://ipDok8S-server-1:6443 K3S_TOKEN=tokenDoK8s-Server-1 sh -
 ```
 
-curl -sfL https://get.k3s.io | K3S_URL=https://104.248.61.65:6443 K3S_TOKEN=K102cf6b51d3e1bca9832acab7ac7bb385c0ce13a186c787f2494dbb3dbedf82dc7::server:d9223d01ef6fc7bb5cf42f52d7921339 sh -
+Repetir o processo para cada máquina que irá representar o agent (workernode).
 
-Instalar o K3S e realizar o JOIN ma máquina k8s-agent-3:
-
-``` bash
-#acessar a máquina virtual
-ssh root@ipDoAgentK8sAgent3
-
-#executar o comando
-curl -sfL https://get.k3s.io | K3S_URL=https://IpDoServer:6443 K3S_TOKEN=TOKEN sh -
-```
 
 ## Arquivo de configuração
 
-Visualizar o arquivo de configuração na máquina k8s-server-1:
+Para acessar o kubernetes da sua máquina local é necessário copiar os dados de autenticação, e colar no arquivo ".config" da máquina local.
+
+Primeira forma é visualizar o arquivo de configuração na máquina k8s-server-1:
+
 ``` bash
 cat /etc/rancher/k3s/k3s.yaml
-``
+```
 
-No bash da máquina local copiar o arquivo de configuração:
+A segunta forma é No bash da máquina local:
 
 ``` bash
-scp root@iPdoServer:/etc/rancher/k3s/k3s.yaml /home/user/.kube/config
+scp root@iPdoK8sServer1:/etc/rancher/k3s/k3s.yaml /home/nomeDoUsuarioMaquinaLocal/.kube/config
 ```
 
 No arquivo config salvo na máquina local, alterar o localhost pelo IP Público da máquina k8s-server-1 gerado pelo Cloud Provider:
@@ -82,32 +81,10 @@ No arquivo config salvo na máquina local, alterar o localhost pelo IP Público 
 ``` yaml
 clusters
 - cluster:
-       server: https://ipDoServer:6443
+       server: https://ipDoK8sServer1:6443
 ```
 
 Checar os nodes na máquina local:
 ``` bash
 kubectl get nodes
-```
-
-
-## Deployment
-
-Executar deployment na máquina local:
-
-``` bash
-# realizar o deploy
-kubectl apply -f deployment.yaml 
-
-# checar os objetos do cluster
-Kubectl get all
-
-# checar em qual worknodes os pods estão sendo executados
-kubectl get pods -o wide
-```
-
-Acessar aplicação através do browser:
-
-```
-http://ipDoServer:30000
 ```
