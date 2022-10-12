@@ -5,12 +5,16 @@ K3S indicado para arquitetura Edge , IOT e Pipeline CI/CD.
 
 ## Máquinas Virtuais
 
-O Cloud Provider que utlizado neste laboratório é o da Digital Ocean.
+O Cloud Provider utlizado neste laboratório foi o da Digital Ocean.
 
-1. 01 Máquina Virtual irá fazer o papel do Control-Pane.
+Utilizar o recurso de Droplets para criar as máquinas virtuais.
+
+Quantidade necessária para este laboratório:
+
+=> 01 Máquina Virtual irá fazer o papel do Control-Pane.
 Minimo para esta máquina 2GB e 1 CPU.
 
-2. As outras máquinas virturias fazem o papel de WorkNodes.
+=> No minimo 2 máquinas virturias para fazer o papel de WorkNodes.
 Minimo para esta máquina 1GB e 1 CPU.
 
 Nomear os Droplets:
@@ -18,6 +22,7 @@ Nomear os Droplets:
 => k8s-agent-2
 => k8s-agent-3
 
+Cada Droplet terá um numero de IP.
 
 
 ## Instalar o K3S no Server
@@ -62,7 +67,9 @@ curl -sfL https://get.k3s.io | K3S_URL=https://ipDok8S-server-1:6443 K3S_TOKEN=t
 Repetir o processo para cada máquina que irá representar o agent (workernode).
 
 
-## Arquivo de configuração
+## Arquivo de configuração (Copiar e Colar)
+
+Acessar a máquina k8s-server-1.
 
 Para acessar o kubernetes da sua máquina local é necessário copiar os dados de autenticação, e colar no arquivo ".config" da máquina local.
 
@@ -72,14 +79,17 @@ Primeira forma é visualizar o arquivo de configuração na máquina k8s-server-
 cat /etc/rancher/k3s/k3s.yaml
 ```
 
-A segunta forma é No bash da máquina local:
+## Arquivo de configuração (via ssh)
+
+Acessar a máquina k8s-server-1.
+
+A outra forma é via ssh na máquina local:
 
 ``` bash
 scp root@iPdoK8sServer1:/etc/rancher/k3s/k3s.yaml /home/nomeDoUsuarioMaquinaLocal/.kube/config
 ```
 
 Sair da máquina:
-
 ``` bash
 exit
 ```
