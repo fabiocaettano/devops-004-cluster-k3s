@@ -73,7 +73,7 @@ Acessar a máquina k8s-server-1.
 
 Para acessar o kubernetes da sua máquina local é necessário copiar os dados de autenticação, e colar no arquivo ".config" da máquina local.
 
-Primeira forma é visualizar o arquivo de configuração na máquina k8s-server-1:
+Para visualizar o arquivo de configuração na máquina k8s-server-1:
 
 ``` bash
 cat /etc/rancher/k3s/k3s.yaml
